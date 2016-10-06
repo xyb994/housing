@@ -91,7 +91,6 @@ class Listing(models.Model):
     contact_email = models.EmailField()
     contact_phone = models.CharField(max_length=15)
     lease_monthly_cost = models.PositiveSmallIntegerField()
-    lease_deposit = models.PositiveSmallIntegerField()
     lease_duration = models.CharField(max_length=255, choices=LEASE_DURATION_CHOICES)
     lease_duration_custom = models.CharField(max_length=128, blank=True, default='')
     date_available = models.DateField()
