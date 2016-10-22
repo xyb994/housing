@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 # Create your models here.
 class HousingUser(AbstractUser):
@@ -79,6 +80,7 @@ class Listing(models.Model):
         ('central_ac', 'Central A/C'),
     )
 
+    listing_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     is_active = models.BooleanField(default=False)
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField()
@@ -95,7 +97,11 @@ class Listing(models.Model):
     lease_duration = models.CharField(max_length=255, choices=LEASE_DURATION_CHOICES)
     lease_duration_custom = models.CharField(max_length=128, blank=True, default='')
     date_available = models.DateField()
-    additional_lease_terms = models.TextField(blank=True, help_text='Example: Owner pays for trash and sewer. Tenant responsible for gas and electric. Must have a minimum credit score of 640. Owner shovel snow, lawn, garden, driveway maintenance', default='')
+    additional_lease_terms = models.TextField(
+        blank=True,
+        help_text='Example: Owner pays for trash and sewer. Tenant responsible for gas and electric. Must have a minimum credit score of 640. Owner shovel snow, lawn, garden, driveway maintenance',
+        default='',
+    )
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES)
     lease_whole_unit = models.BooleanField(default=False)
     owner_in_building = models.BooleanField(default=False)
