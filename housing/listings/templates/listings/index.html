@@ -1,0 +1,19 @@
+{% if latest_listings %}
+    <ul>
+    {% for listing in latest_listings %}
+      {% if listing.is_active %}
+        <div name='listing'>
+            <li><a href="{% url 'listings:detail' listing.id %}">{{ listing.property_title }}</a></li>
+            <div name='listing_street'>
+                {{ listing.street }}<br>
+                {{ listing.city }}, {{ listing.state }} {{ listing.zip_code }}
+            </div>
+            <div name='listing_bed_bath_count'>{{ listing.bedroom_count }} bedroom, {{ listing.bathroom_count }} bathroom</div>
+            <div name='listing_description'>{{ listing.property_description }}</div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No listings are available.</p>
+{% endif %}
