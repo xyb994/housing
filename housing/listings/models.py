@@ -132,3 +132,6 @@ class Listing(models.Model):
     def get_name(self):
         name = self.first_name + self.last_name
         return name
+
+    def __str__(self):
+        return self.property_title
