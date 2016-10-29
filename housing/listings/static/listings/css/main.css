@@ -1,13 +1,24 @@
 body {
+  font-family: 'Open Sans', "Helvetica Neue", Arial, sans-serif;
   padding-top: 50px;
+  background-color: #F4F4F4;
+}
+
+a:hover{
+  text-decoration: none;
 }
 
 .content {
-  padding: 40px 40px;
+  padding: 2% 5%;
 }
 
-.listing_street {
+.container-fixed {
+  margin: 0 auto;
+  max-width: 970px;
+}
 
+.navbar-brand {
+  font-weight: bold;
 }
 
 /*nav bar color*/

@@ -1,0 +1,44 @@
+.panel-default > .panel-heading-custom {
+  background-color: #ffffff;
+}
+
+.panel-body-listing-item {
+  font-size: 13px;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+
+#contact {
+  width: 90%;
+}
+
+.lease-detail .lease-detail {
+
+}
+
+.iframe-container{
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+}
+
+.iframe-container > *{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-inner > .item-active > iframe, img {
+    width: 80%;
+    margin: auto;
+}
