@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'listings'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,6 +53,7 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'housing.urls'
 
+AUTH_USER_MODEL = 'listings.HousingUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

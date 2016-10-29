@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if latest_listings %}
+        {% for listing in latest_listings %}
+          {% if listing.is_active %}
+            <div class='panel panel-default'>
+                <div class='panel-heading'>
+                  <h3 class='panel-title'><a href="{% url 'listings:detail' listing.id %}">{{ listing.property_title }}</a>
+                </div>
+                <div class='panel-body'>
+                  <div class='listing_street'>
+                      {{ listing.street }}<br>
+                      {{ listing.city }}, {{ listing.state }} {{ listing.zip_code }}
+                  </div>
+                  <div class='listing_bed_bath_count'>{{ listing.bedroom_count }} bedroom, {{ listing.bathroom_count }} bathroom</div>
+                  <div class='listing_description'>{{ listing.property_description }}</div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>No listings are available.</p>
+    {% endif %}
+{% endblock %}
