@@ -1,10 +1,156 @@
-{% extends 'base.html' %}
-{% block content %}
-  <h1>{{ listing.property_title }}</h1>
-  <div>
-  Address:<br>
-  {{ listing.street }}<br>
-  {{ listing.city }}, {{ listing.state }} {{ listing.zip_code }}
-  <div>
-  For rent by: {{ listing.for_rent_by }}
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block script %}
+  <link href="{% static "listings/css/listing-detail.css" %}" rel="stylesheet">
 {% endblock %}
+
+{% block content %}
+  <h2>{{ listing.property_title|title }}</h2>
+  <h4 id="address">
+    {{ listing.street }}, {{ listing.city }}, {{ listing.state }}
+    {{ listing.zip_code }}
+  </h4>
+  <h5 id="rent-bed-bath-area">
+    <strong>${{ listing.lease_monthly_cost }}</strong>/month &bull;
+    {{ listing.bedroom_count }} bed &bull;
+    {{ listing.bathroom_count }} bath &bull;
+    {{ listing.unit_sqft }} ft<sup>2</sup>/
+    {{ listing.get_metric_area }} m<sup>2</sup>
+  </h5>
+  <h5>
+    Listing Last Updated:
+    <!-- TO BE FIXED-->
+    {{ listing.get_time|timesince:listing.datetime_modified }}
+  </h5>
+
+  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+      <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <div class="iframe-container item-active">
+        <iframe frameborder="0"
+        src= "https://www.google.com/maps/embed/v1/place?key=AIzaSyCpV5sTdc5hjJjoeasLbSNu-6e575V-z44&q={{listing.get_address|urlencode}}">
+        </iframe>
+      </div>
+      <div class="item">
+        <img data-src="holder.js/1140x500/auto/#666:#444/text:Second slide" alt="Second slide">
+      </div>
+      <div class="item">
+        <img data-src="holder.js/1140x500/auto/#555:#333/text:Third slide" alt="Third slide">
+      </div>
+    </div>
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-sm-7">
+      <h3>Description</h3>
+      <p class="well">{{ listing.property_description }}</p>
+      <h3>Lease Details</h3>
+      <div class="lease-detail well">
+        <p>
+          <strong>For Rent By</strong>
+          {{ listing.get_for_rent_by_display }}
+        </p>
+        <p><strong>Deposit</strong> ${{ listing.lease_deposit }}</p>
+        <p><strong>Date Available</strong> {{ listing.date_available }}</p>
+
+        <p>
+          <strong>Lease Duration</strong>
+          {% if listing.lease_duration_custom %}
+          {{ listing.lease_duration_custom }}
+          {% else %}
+          {{ listing.get_lease_duration_display }}
+          {% endif %}
+        </p>
+
+        {% if listing.additional_lease_terms %}
+        <p>
+          <strong>Additional lease terms:</strong>
+          {{ listing.additional_lease_terms }}
+        </p>
+        {% endif %}
+      </div>
+
+      <h3>Property Detail</h3>
+      <div class="property-detail well">
+        <p>
+          {% if listing.lease_whole_unit %}
+          Leasing whole unit &bull;
+          {% endif %}
+          {% if listing.owner_in_building %}
+          Owner lives inside buiding
+          {% endif %}
+        </p>
+        <p><strong>Type </strong>{{ listing.get_property_type_display }}</p>
+        <p><strong>Floor </strong>{{ listing.unit_floor }}</p>
+        <p>
+          <strong>Parking Type </strong>
+          {{ listing.get_parking_type_display }}
+        </p>
+        <p>
+          <strong>Parking Space </strong>
+          {{ listing.get_parking_space_count_display }}
+        </p>
+        <p>
+          <strong>Pet </strong>
+          {{ listing.get_pet_allowed_display }}
+        </p>
+        <p>
+          <strong>Laundry </strong>
+          {{ listing.get_laundry_type_display }}
+        </p>
+
+        {% if listing.furnished %}
+        <p>
+          <strong>{{ listing.get_furnished_display|title }}</strong>
+          {{ listing.furnished_details }}
+        </p>
+        {% endif %}
+
+        <p><strong>Utilities Included</strong><br>
+          {{ listing.is_water_included|yesno:"✔, ✘" }} Water<br>
+          {{ listing.is_electricity_included|yesno:"✔, ✘" }} Electricity <br>
+          {{ listing.is_heat_included|yesno:"✔, ✘" }} Heat<br>
+          {{ listing.is_internet_included|yesno:"✔, ✘" }} Internet<br>
+          {{ listing.is_cable_included|yesno:"✔, ✘" }} Cable<br>
+        </p>
+        <p><strong>Amenities</strong><br>
+          {{ listing.has_dishwasher|yesno:"✔, ✘" }} Dishwasher<br>
+          {{ listing.has_garbage_disposal|yesno:"✔, ✘" }} Garbage disposal<br>
+          {{ listing.has_microwave|yesno:"✔, ✘" }} Microwave<br>
+          {{ listing.has_fridge|yesno:"✔, ✘" }} Refrigerator<br>
+          {{ listing.cooling|yesno:"✔, ✘" }} Air Conditioning<br>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-sm-5">
+      <h3>Contact</h3>
+      <div name="contact" class="well">
+        <p><strong>{{ listing.contact_name }}</strong></p>
+        <p>{{ listing.contact_email|urlize }}</p>
+        <p>{{ listing.contact_phone }}</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+<!--TO DO-->
+LAUNDRY_CHOICES? not necessary
+time ago
+contact email too long no line break
+map API HTTP referrers in console
