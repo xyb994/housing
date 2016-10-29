@@ -36,13 +36,13 @@ class Listing(models.Model):
     )
 
     FURNISHED_CHOICES = (
-        ('unfurnished', 'Unfurnished'),
+        ('none', 'Unfurnished'),
         ('lightly_furnished', 'Lightly furnished'),
         ('fully_furnished', 'Fully furnished'),
     )
 
     PARKING_SPACE_COUNT_CHOICES = (
-        ('0', '0'),
+        ('0', 'None'),
         ('1', '1'),
         ('2', '2'),
         ('3_plus', '3+'),
@@ -65,13 +65,6 @@ class Listing(models.Model):
         ('none', 'None'),
         ('in_unit', 'In-unit'),
         ('shared', 'Shared')
-    )
-
-    LAUNDRY_CHOICES = (
-        ('none', 'None'),
-        ('washer_and_dryer', 'Washer & Dryer'),
-        ('washer', 'Washer'),
-        ('dryer', 'Dryer'),
     )
 
     COOLING_CHOICES = (
@@ -99,8 +92,8 @@ class Listing(models.Model):
     date_available = models.DateField()
     additional_lease_terms = models.TextField(
         blank=True,
-        help_text='Example: Owner pays for trash and sewer. Tenant responsible for gas and electric. Must have a minimum credit score of 640. Owner shovel snow, lawn, garden, driveway maintenance',
-        default='',
+        help_text='Example: Owner pays for trash and sewer. Tenant responsible for gas and electric. Owner shovel snow, lawn, garden, driveway maintenance',
+        default=''
     )
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES)
     lease_whole_unit = models.BooleanField(default=False)
@@ -109,7 +102,7 @@ class Listing(models.Model):
     bathroom_count = models.PositiveSmallIntegerField()
     unit_sqft = models.PositiveSmallIntegerField(blank=True)
     unit_floor = models.PositiveSmallIntegerField()
-    furnished = models.CharField(max_length=11, choices=FURNISHED_CHOICES)
+    furnished = models.CharField(max_length=17, choices=FURNISHED_CHOICES)
     furnished_details = models.TextField(blank=True, help_text='Example: bed only...', default='')
     is_water_included = models.BooleanField(default=False)
     is_electricity_included = models.BooleanField(default=False)
@@ -126,12 +119,15 @@ class Listing(models.Model):
     has_garbage_disposal = models.BooleanField(default=False)
     has_microwave = models.BooleanField(default=False)
     has_fridge = models.BooleanField(default=False)
-    laundry = models.CharField(max_length=15, choices=LAUNDRY_CHOICES)
     cooling = models.CharField(max_length=20, choices=COOLING_CHOICES)
-
-    def get_name(self):
-        name = self.first_name + self.last_name
-        return name
 
     def __str__(self):
         return self.property_title
+
+    def get_metric_area(self):
+        metric_area = self.unit_sqft * 0.0929
+        return int(metric_area)
+
+    def get_address(self):
+        address = '%s, %s, %s %s' % (self.street, self.city, self.state, self.zip_code)
+        return address
