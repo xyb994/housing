@@ -1,13 +1,23 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Listing
 
 # Create your views here.
 def index(request):
-    latest_listings = Listing.objects.order_by('-datetime_modified')[:10]
-    context = {'latest_listings': latest_listings}
-    return render(request, 'listings/index.html', context)
+    active_listings = Listing.objects.filter(is_active=True).order_by("-datetime_modified")
+    paginator = Paginator(active_listings, 3) #listing per page
+
+    page = request.GET.get('page')
+    try:
+        listings = paginator.page(page)
+    except PageNotAnInteger:
+        listings = paginator.page(1)
+    except EmptyPage:
+        listings = paginator.page(1)
+
+    return render(request, 'listings/index.html', {'listings': listings })
 
 def detail(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
-    return render(request, 'listings/detail.html', {'listing': listing})
+    return render(request, "listings/detail.html", {"listing": listing})

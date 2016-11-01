@@ -1,0 +1,16 @@
+.panel-default > .panel-heading-custom {
+  background-color: #ffffff;
+}
+
+#listing-index-title {
+  color: #337ab7;
+}
+
+.pagination {
+    margin: auto;
+}
+
+.panel-body-listing-item {
+  font-size: 13px;
+  padding-bottom: 3px;
+}
