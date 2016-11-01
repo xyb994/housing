@@ -5,8 +5,8 @@ from .models import Listing
 
 # Create your views here.
 def index(request):
-    active_listings = Listing.objects.filter(is_active=True).order_by("-datetime_modified")
-    paginator = Paginator(active_listings, 3) #listing per page
+    active_listings = Listing.objects.filter(is_active=True)
+    paginator = Paginator(active_listings, 5) #listing per page
 
     page = request.GET.get('page')
     try:
