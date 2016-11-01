@@ -76,7 +76,7 @@ class Listing(models.Model):
     listing_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     is_active = models.BooleanField(default=False)
     datetime_created = models.DateTimeField(auto_now_add=True)
-    datetime_modified = models.DateTimeField()
+    datetime_modified = models.DateTimeField(auto_now=True)
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=128)
@@ -123,6 +123,9 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.property_title
+
+    class Meta:
+        ordering = ['-datetime_modified']
 
     def get_metric_area(self):
         metric_area = self.unit_sqft * 0.0929
