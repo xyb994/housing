@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<form class="form-inline" name="filters" action="" method="GET">
+<form class="form-inline form-inline-custom" name="filters" action="" method="GET">
   <select class="form-control form-control-custom" name="type">
     <option value="any" selected>Type</option>
     <option value="any">Any</option>
@@ -38,7 +38,6 @@
   <input type="submit"></input>
 </form>
 {% if listings %}
-<p>Showing {{ listings.count }} listings.</p>
 {% for listing in listings %}
 <div class="panel panel-default">
   <div class="panel-heading panel-heading-custom">
@@ -76,7 +75,7 @@
   {% if listings.has_other_pages %}
   <ul class="pagination">
     {% if listings.has_previous %}
-    <li><a href="?page={{ listings.previous_page_number }}">&laquo;</a></li>
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ listings.previous_page_number }}">&laquo;</a></li>
     {% else %}
     <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
@@ -84,11 +83,11 @@
     {% if listings.number == i %}
     <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
     {% else %}
-    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ i }}">{{ i }}</a></li>
     {% endif %}
     {% endfor %}
     {% if listings.has_next %}
-    <li><a href="?page={{ listings.next_page_number }}">&raquo;</a></li>
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ listings.next_page_number }}">&raquo;</a></li>
     {% else %}
     <li class="disabled"><span>&raquo;</span></li>
     {% endif %}
