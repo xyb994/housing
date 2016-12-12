@@ -30,9 +30,9 @@ class Listing(models.Model):
     )
 
     PROPERTY_TYPE_CHOICES = (
-        ('apartment', 'Apartment'),
-        ('single_family_house', 'Single family house'),
-        ('homestay', 'Homestay: live within house owner(share kitchen and/or bathroom)'),
+        ('apartment', 'Apartments'),
+        ('house', 'Houses'),
+        ('homestay', 'Homestay'),
     )
 
     FURNISHED_CHOICES = (
@@ -73,7 +73,7 @@ class Listing(models.Model):
         ('central_ac', 'Central A/C'),
     )
 
-    listing_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    listing_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField()
@@ -100,7 +100,7 @@ class Listing(models.Model):
     owner_in_building = models.BooleanField(default=False)
     bedroom_count = models.PositiveSmallIntegerField()
     bathroom_count = models.PositiveSmallIntegerField()
-    unit_sqft = models.PositiveSmallIntegerField(blank=True)
+    unit_sqft = models.PositiveSmallIntegerField(blank=True, null=True)
     unit_floor = models.PositiveSmallIntegerField()
     furnished = models.CharField(max_length=17, choices=FURNISHED_CHOICES)
     furnished_details = models.TextField(blank=True, help_text='Example: bed only...', default='')
