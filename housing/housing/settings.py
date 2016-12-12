@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'listings'
+    'listings',
+    'nopassword',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -54,6 +55,9 @@ MIDDLEWARE_CLASSES = [
 ROOT_URLCONF = 'housing.urls'
 
 AUTH_USER_MODEL = 'listings.HousingUser'
+
+AUTHENTICATION_BACKENDS = ( 'nopassword.backends.email.EmailBackend', )
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
