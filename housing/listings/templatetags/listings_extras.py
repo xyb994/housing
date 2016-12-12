@@ -7,10 +7,6 @@ def removeUnderscore(word):
     formatedLabelText = word.title().replace("_", " ")
     return formatedLabelText
 
-# @register.filter
-# def addCss(field, css):
-#     return field.as_widget(attrs={"class":css})
-
 @register.filter(name='add_attributes')
 def add_attributes(field, css):
     attrs = {}
