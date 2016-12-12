@@ -1,1 +1,2 @@
 django==1.9.5
+django-nopassword==3.0.0
