@@ -1,3 +1,20 @@
+select {
+    width: auto !important;
+}
+
+#filters {
+    margin-bottom:
+}
+
+.form-control-custom: {
+    margin-right: auto;
+    display: inline-block !important;
+}
+
+.panel {
+    margin-top: 20px;
+}
+
 .panel-default > .panel-heading-custom {
   background-color: #ffffff;
 }
