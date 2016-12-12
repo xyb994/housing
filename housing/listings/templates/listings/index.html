@@ -2,68 +2,99 @@
 {% load staticfiles %}
 
 {% block script %}
-    <link href="{% static "listings/css/index.css" %}" rel="stylesheet">
+<link href="{% static "listings/css/index.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    {% if listings %}
-        {% for listing in listings %}
-            <div class="panel panel-default">
-                <div class="panel-heading panel-heading-custom">
-                    <h3 class="panel-title panel-title-custom">
-                        <a href="{% url "listings:detail" listing.id %}">
-                            <strong><span id="listing-index-title">{{ listing.property_title }}</span></strong>
-                        </a>
-                        <span class="pull-right">
-                            ${{ listing.lease_monthly_cost }}/mo
-                        </span>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-3">
-                            <!--to-do: link to map-->
-                            <div class="panel-body-listing-item">
-                                {{ listing.street }}<br>
-                                {{ listing.city }}, {{ listing.state }} {{ listing.zip_code }}<br>
-                                {{ listing.bedroom_count }} bed,
-                                {{ listing.bathroom_count }} bath,
-                                {{ listing.unit_sqft }} ft<sup>2</sup>/
-                                {{ listing.get_metric_area }} m<sup>2</sup>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 col-md-9">
-                            {{ listing.property_description|truncatewords:75 }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-
-        <div id="paginationDiv">
-            {% if listings.has_other_pages %}
-                <ul class="pagination">
-                    {% if listings.has_previous %}
-                        <li><a href="?page={{ listings.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&laquo;</span></li>
-                    {% endif %}
-                    {% for i in listings.paginator.page_range %}
-                        {% if listings.number == i %}
-                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                        {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if listings.has_next %}
-                        <li><a href="?page={{ listings.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&raquo;</span></li>
-                    {% endif %}
-                </ul>
-            {% endif %}
+<form class="form-inline form-inline-custom" name="filters" action="" method="GET">
+  <select class="form-control form-control-custom" name="type">
+    <option value="any" selected>Type</option>
+    <option value="any">Any</option>
+    <option value="house">House</option>
+    <option value="apartment">Apartment</option>
+    <option value="homestay">Homestay</option>
+  </select>
+  <select class="form-control form-control-custom" name="beds">
+    <option value="1" selected>Beds</option>
+    <option value="1">1+ Beds</option>
+    <option value="2">2+ Beds</option>
+    <option value="3">3+ Beds</option>
+    <option value="4">4+ Beds</option>
+    <option value="5">5+ Beds</option>
+  </select>
+  <select class="form-control form-control-custom" name="price">
+    <option value="0" selected>Price</option>
+    <option value="0">$0+</option>
+    <option value="500">$500+</option>
+    <option value="750">$750+</option>
+    <option value="1000">$1000+</option>
+    <option value="1250">$1250+</option>
+    <option value="1500">$1500+</option>
+    <option value="1750">$1750+</option>
+    <option value="2000">$2000+</option>
+    <option value="3500">$3500+</option>
+    <option value="3000">$3000+</option>
+  </select>
+  <input type="submit"></input>
+</form>
+{% if listings %}
+{% for listing in listings %}
+<div class="panel panel-default">
+  <div class="panel-heading panel-heading-custom">
+    <h3 class="panel-title panel-title-custom">
+      <a href="{% url "listings:detail" listing.id %}">
+        <strong><span id="listing-index-title">{{ listing.property_title }}</span></strong>
+      </a>
+      <span class="pull-right">
+        ${{ listing.lease_monthly_cost }}/mo
+      </span>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-3">
+        <!--to-do: link to map-->
+        <div class="panel-body-listing-item">
+          {{ listing.street }}<br>
+          {{ listing.city }}, {{ listing.state }} {{ listing.zip_code }}<br>
+          {{ listing.bedroom_count }} bed,
+          {{ listing.bathroom_count }} bath,
+          {{ listing.unit_sqft }} ft<sup>2</sup>/
+          {{ listing.get_metric_area }} m<sup>2</sup>
         </div>
+      </div>
+      <div class="col-sm-8 col-md-9">
+        {{ listing.property_description|truncatewords:75 }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<div id="paginationDiv">
+  {% if listings.has_other_pages %}
+  <ul class="pagination">
+    {% if listings.has_previous %}
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ listings.previous_page_number }}">&laquo;</a></li>
     {% else %}
-        <p>Sorry, no listing available.</p>
+    <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
+    {% for i in listings.paginator.page_range %}
+    {% if listings.number == i %}
+    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if listings.has_next %}
+    <li><a href="?{{queries_without_page.urlencode}}&amp;page={{ listings.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>
+{% else %}
+<p>Sorry, no listing available.</p>
+{% endif %}
 {% endblock %}
