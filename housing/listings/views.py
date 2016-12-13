@@ -70,6 +70,11 @@ def registration_complete(request):
     return render_to_response("registration/registration_complete.html")
 
 @login_required
+def profile(request):
+    listings = Listing.objects.filter(listing_owner=request.user)
+    return render(request, "accounts/profile.html", {"listings": listings})
+
+@login_required
 def newListing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -77,6 +82,7 @@ def newListing(request):
             # process the data in form.cleaned_data as required
             listing = form.save(commit=False)
             listing.datetime_modified = datetime.now()
+            listing.listing_owner = request.user
             listing.save()
             # redirect to a new URL:
             return redirect("/accounts/profile")
