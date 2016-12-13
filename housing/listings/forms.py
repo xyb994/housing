@@ -2,7 +2,7 @@ from django import forms
 from .models import Listing, HousingUser
 
 class ListingForm(forms.ModelForm):
-    furnished_details = forms.CharField(widget=forms.Textarea(attrs={
+    furnished_details = forms.CharField(required=False, widget=forms.Textarea(attrs={
         "placeholder": "Example: bed and desk only"}))
     additional_lease_terms = forms.CharField(required=False,
         widget=forms.Textarea(attrs={'class': 'form-control',
