@@ -103,7 +103,7 @@ class Listing(models.Model):
     unit_sqft = models.PositiveSmallIntegerField(default=0)
     unit_floor = models.PositiveSmallIntegerField()
     furnished = models.CharField(max_length=17, choices=FURNISHED_CHOICES)
-    furnished_details = models.TextField(blank=True, help_text='Example: bed only...', default='')
+    furnished_details = models.CharField(blank=True, help_text='Furnishing detail, example: bed only...', default='', max_length=512)
     is_water_included = models.BooleanField(default=False)
     is_electricity_included = models.BooleanField(default=False)
     is_heat_included = models.BooleanField(default=False)
