@@ -2,9 +2,40 @@
 {% load staticfiles %}
 
 {% block script %}
+<link href="{% static "listings/css/profile.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
+<h2>My Listings</h2>
+<span class="pull-right">
+  <a href="/newListing" class="btn btn-primary">Create New Listing</a>
+</span>
 
-<h2>Hello {{ user.get_username }}</h2>
+{% if listings %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Addresses</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for listing in listings %}
+    <tr>
+      <td><a href="{% url "listings:detail" listing.id %}">{{ listing.street }}, {{ listing.city }}, {{ listing.state }}</a></td>
+      <td>
+        <a href="/editListing" class="btn btn-primary">Edit</a>
+        {% if listing.is_active %}
+        <button name="deactivate-button"class="btn btn-danger" type="submit">Deactivate</button>
+        {% else %}
+        <button name="activate-button"class="btn btn-success" type="submit">Activate</button>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+{% else %}
+<p>You do not have any listing, <a href="/newListing">click to create a new Listing.</a></p>
+{% endif %}
 {% endblock %}
