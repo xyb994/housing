@@ -58,7 +58,7 @@ def register(request):
             user = form.save(commit=False)
             user.datetime_created = datetime.now()
             user.email = user.username
-            user.set_password()
+            user.set_password(request.POST.get("password"))
             user.save()
             return HttpResponseRedirect("/accounts/register/complete")
     # if a GET (or any other method), create a blank form
