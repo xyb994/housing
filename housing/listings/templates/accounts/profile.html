@@ -48,12 +48,14 @@
 
       <td>
         {% if listing.is_active %}
-        <form class="" action="/accounts/profile/" method="post"> {% csrf_token %}
-          <button name="listing-to-be-changed" class="btn btn-danger" value="{{ listing.id }}" type="submit">Deactivate</button>
+        <form class="" action="/accounts/profile/" method="post">{% csrf_token %}
+          <button name="listing-to-be-changed" class="btn btn-danger"
+            value="{{ listing.id }}" type="submit">Deactivate</button>
         </form>
         {% else %}
-        <form class="" action="/accounts/profile/" method="post"> {% csrf_token %}
-          <button name="listing-to-be-changed" class="btn btn-success" value="{{ listing.id }}" type="submit">Activate</button>
+        <form class="" action="/accounts/profile/" method="post">{% csrf_token %}
+          <button name="listing-to-be-changed" class="btn btn-success"
+            value="{{ listing.id }}" type="submit">Activate</button>
         </form>
         {% endif %}
       </td>
@@ -62,6 +64,8 @@
   </tbody>
 
 {% else %}
-<p>You do not have any listing, <a href="/newListing">click to create a new Listing.</a></p>
+<p>You do not have any listing,
+  <a href="/newListing">click to Create S New Listing.</a>
+</p>
 {% endif %}
 {% endblock %}
