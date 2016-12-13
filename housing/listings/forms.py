@@ -1,5 +1,5 @@
 from django import forms
-from .models import Listing
+from .models import Listing, HousingUser
 
 class ListingForm(forms.ModelForm):
     furnished_details = forms.CharField(widget=forms.Textarea(attrs={
@@ -16,3 +16,8 @@ class ListingForm(forms.ModelForm):
         model = Listing
         exclude = ("listing_owner", "is_active", "datetime_modified",
             "datetime_created")
+
+class HousingUserCreationForm(forms.ModelForm):
+    class Meta:
+        model = HousingUser
+        fields = ("username", "password")
