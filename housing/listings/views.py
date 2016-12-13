@@ -3,6 +3,12 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from .forms import HousingUserCreationForm
+from django.template.context_processors import csrf
 
 from .forms import ListingForm
 from .models import Listing
@@ -42,6 +48,28 @@ def detail(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     return render(request, "listings/detail.html", {"listing": listing})
 
+def register(request):
+    if request.method == "POST":
+        form = HousingUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.datetime_created = datetime.now()
+            user.email = user.username
+            user.set_password()
+            user.save()
+            return HttpResponseRedirect("/accounts/register/complete")
+    else:
+        form = HousingUserCreationForm()
+    token = {}
+    token.update(csrf(request))
+    token["form"] = form
+
+    return render_to_response("registration/registration_form.html", token)
+
+def registration_complete(request):
+    return render_to_response("registration/registration_complete.html")
+
+@login_required
 def newListing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -51,7 +79,7 @@ def newListing(request):
             listing.datetime_modified = datetime.now()
             listing.save()
             # redirect to a new URL:
-            return redirect("/")
+            return redirect("/accounts/profile")
     # if a GET (or any other method) we'll create a blank form
     else:
         form = ListingForm()
