@@ -2,18 +2,16 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
-from datetime import datetime
 from django.contrib.auth.decorators import login_required
-
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from .forms import HousingUserCreationForm
 from django.template.context_processors import csrf
+from datetime import datetime
 
-from .forms import ListingForm
+from .forms import ListingForm, HousingUserCreationForm
 from .models import Listing
 
-# Create your views here.
+# index homepage view
 def index(request):
     queries_without_page = request.GET.copy()
     if "page" in queries_without_page:
@@ -30,7 +28,8 @@ def index(request):
     if (request.GET.get("beds")):
         filter_querry["bedroom_count__gte"] = request.GET.get("beds")
 
-    listings = Listing.objects.filter(**filter_querry).order_by("-datetime_modified")
+    listings = Listing.objects.filter(**filter_querry).order_by(
+        "-datetime_modified")
 
     paginator = Paginator(listings, 5) #listing per page
     page = request.GET.get("page")
@@ -42,12 +41,16 @@ def index(request):
     except EmptyPage:
         listings = paginator.page(1)
 
-    return render(request, "listings/index.html", {"listings": listings, "queries_without_page": queries_without_page})
+    return render(request, "listings/index.html", {"listings": listings,
+        "queries_without_page": queries_without_page,
+        "filter_querry": filter_querry})
 
+# listing detail view
 def detail(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     return render(request, "listings/detail.html", {"listing": listing})
 
+# registration view
 def register(request):
     if request.method == "POST":
         form = HousingUserCreationForm(request.POST)
@@ -58,6 +61,7 @@ def register(request):
             user.set_password()
             user.save()
             return HttpResponseRedirect("/accounts/register/complete")
+    # if a GET (or any other method), create a blank form
     else:
         form = HousingUserCreationForm()
     token = {}
@@ -66,27 +70,28 @@ def register(request):
 
     return render_to_response("registration/registration_form.html", token)
 
+# registration complete view
 def registration_complete(request):
     return render_to_response("registration/registration_complete.html")
 
+# account profile view
 @login_required
 def profile(request):
     listings = Listing.objects.filter(listing_owner=request.user)
     return render(request, "accounts/profile.html", {"listings": listings})
 
+# create new listing iew
 @login_required
 def newListing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
         if form.is_valid():
-            # process the data in form.cleaned_data as required
             listing = form.save(commit=False)
             listing.datetime_modified = datetime.now()
             listing.listing_owner = request.user
             listing.save()
-            # redirect to a new URL:
             return redirect("/accounts/profile")
-    # if a GET (or any other method) we'll create a blank form
+    # if a GET (or any other method), create a blank form
     else:
         form = ListingForm()
 
