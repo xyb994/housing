@@ -2,8 +2,9 @@ select {
     width: auto !important;
 }
 
-#filters {
-    margin-bottom:
+.btn-custom,
+.btn-custom:hover {
+    background-color: #1b307b;
 }
 
 .form-control-custom: {
@@ -23,10 +24,6 @@ select {
   color: #337ab7;
 }
 
-.pagination {
-    margin: auto;
-}
-
 .panel-body-listing-item {
   font-size: 13px;
   padding-bottom: 3px;
@@ -40,3 +37,11 @@ select {
 .pagination>.active>span:hover {
     background-color: #1b307b;
     border-color: #1b307b;
+}
+
+.pagination {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
