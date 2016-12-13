@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^accounts/register/$', views.register, name='register'),
     url(r'^accounts/register/complete/$', views.registration_complete, name='registration_complete'),
     url(r'^accounts/profile/$', views.profile, name='profile'),
-    url(r'^newListing$', views.newListing, name='newListing'),
+    url(r'^listing/new/$', views.newListing, name='newListing'),
+    url(r'^listing/(?P<pk>\d+)/edit/$', views.editListing, name='editListing'),
 ]

@@ -94,7 +94,7 @@ def profile(request):
         "-is_active", "-datetime_created")
     return render(request, "accounts/profile.html", {"listings": listings})
 
-# create new listing view
+# Create new listing view
 @login_required
 def newListing(request):
     if request.method == "POST":
@@ -109,4 +109,19 @@ def newListing(request):
     else:
         form = ListingForm()
 
-    return render(request, "listings/new-listing.html", {"form": form})
+    return render(request, "listings/listing_edit.html", {"form": form})
+
+# Edit Listing Detail View
+def editListing(request, pk):
+    listing = get_object_or_404(Listing, pk=pk)
+    if request.method == "POST":
+        form = ListingForm(request.POST, instance=post)
+        if form.is_valid():
+            listing = form.save(commit=False)
+            listing.author = request.user
+            listing.published_date = timezone.now()
+            listing.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = ListingForm(instance=post)
+    return render(request, 'listings/listing_edit.html', {'form': form})
