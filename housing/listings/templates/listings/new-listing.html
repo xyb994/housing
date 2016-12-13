@@ -7,12 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST">{% csrf_token %}
+<p class="pull-right">Logged in as {{ request.user }}</p>
+
+<form method="POST">
+  {% csrf_token %}
   {{ form.errors }}
   {{ form.non_field_errors }}
-  <h4>FOR RENT</h4>
+  <h2>FOR RENT</h2>
 
-  <h3>ABOUT YOUE PROPERTY</h3>
+  <h3>About Your Property</h3>
   <div id="property-info" class="well">
     <div class="row">
       <div class="col-sm-8">
@@ -47,7 +50,7 @@
     <label for="id_property_description">Property Descripion</label> {{ form.property_description|add_attributes:"class, form-control" }}
   </div>
 
-  <h3>CONTACT INFORMATION</h3>
+  <h3>Contact Information</h3>
   <div id="contact-info" class="well">
     <div class="row">
       <div class="col-sm-4">
@@ -71,7 +74,7 @@
     </div>
   </div>
 
-  <h3>LEASE TERMS</h3>
+  <h3>Lease Terms</h3>
   <div id="lease-terms" class="well">
     <div class="row">
       <div class="col-sm-2">
@@ -93,14 +96,14 @@
     <label for="id_additional_lease_terms">Additional Lease Terms</label> {{ form.additional_lease_terms|add_attributes:"class, form-control" }}
   </div>
 
-  <h3>RENTAL DETAILS</h3>
+  <h3>Rental Details</h3>
   <div id="rental-details" class="well">
     <div class="row">
       <div class="col-sm-2">
         <label for="id_property_type">Property Type</label> {{ form.property_type|add_attributes:"class, form-control" }}
       </div>
       <div class="col-sm-2">
-        <label for="id_unit_sqft">Unit Area</label> {{ form.unit_sqft|add_attributes:"class, form-control" }}
+        <label for="id_unit_sqft">Unit Area (sqft)</label> {{ form.unit_sqft|add_attributes:"class, form-control" }}
       </div>
     </div>
     <div class="row">
@@ -123,14 +126,14 @@
       </div>
     </div>
 
-    <h4>UTILITIES INCLUDED</h4>
+    <h4>Utilities Included</h4>
     {{ form.is_water_included }} <label for="id_is_water_included">Water</label><br>
     {{ form.is_electricity_included }} <label for="id_is_electricity_included">Electricity</label><br>
     {{ form.is_heat_included }} <label for ="id_is_heat_included">Heat</label><br>
     {{ form.is_internet_included }} <label for ="id_is_internet_included">Internet</label><br>
     {{ form.is_cable_included }} <label for="id_is_cable_included">Cable</label><br>
 
-    <h4>AMENITIES INCLUDED</h4>
+    <h4>Amenities Included</h4>
     <div class="row">
       <div class="col-sm-3">
         <label for="id_laundry_type">Laundry</label> {{ form.laundry_type|add_attributes:"class, form-control" }}
@@ -154,7 +157,6 @@
     {{ form.has_fridge }} <label for="id_has_fridge">Fridge</label><br>
     {{ form.has_garbage_disposal }} <label for="id_has_garbage_disposal">Garbage disposal</label>
   </div>
-
-  <button type="submit" class="save btn btn-default">Submit</button>
-</form>
+  <p>Make sure you activate the listing after submission.</p>
+  <button type="submit" class="btn btn-primary btn-custom">Submit</button>
 {% endblock %}

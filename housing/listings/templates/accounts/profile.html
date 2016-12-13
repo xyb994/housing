@@ -6,7 +6,8 @@
 {% endblock %}
 
 {% block content %}
-<h2>My Listings</h2>
+<p class="pull-right">Logged in as {{ request.user }}</p>
+<h3>My Listings</h3>
 <span class="pull-right">
   <a href="/newListing" class="btn btn-primary">Create New Listing</a>
 </span>
