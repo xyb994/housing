@@ -100,7 +100,7 @@ class Listing(models.Model):
     owner_in_building = models.BooleanField(default=False)
     bedroom_count = models.PositiveSmallIntegerField()
     bathroom_count = models.PositiveSmallIntegerField()
-    unit_sqft = models.PositiveSmallIntegerField(blank=True, null=True)
+    unit_sqft = models.PositiveSmallIntegerField(default=0)
     unit_floor = models.PositiveSmallIntegerField()
     furnished = models.CharField(max_length=17, choices=FURNISHED_CHOICES)
     furnished_details = models.TextField(blank=True, help_text='Example: bed only...', default='')
