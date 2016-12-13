@@ -6,7 +6,8 @@
     border:1px solid #1b307b;
 }
 
-.btn-custom {
+.btn-custom,
+.btn-custom:hover {
     background-color: #1b307b;
 }
 
@@ -47,14 +48,6 @@ a {
   z-index: 2;
 }
 
-.form-registration input[type="username"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-registration input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.form-registration input {
+  margin-bottom: 20px;
 }

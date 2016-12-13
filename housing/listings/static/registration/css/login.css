@@ -2,11 +2,17 @@
     background-color: #ffffff;
 }
 
+.form-control-custom {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .form-control-custom:focus {
     border:1px solid #1b307b;
 }
 
-.btn-custom {
+.btn-custom,
+.btn-custom:hover {
     background-color: #1b307b;
 }
 
@@ -47,14 +53,6 @@ a {
   z-index: 2;
 }
 
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.form-signin input {
+  margin-bottom: 20px;
 }
