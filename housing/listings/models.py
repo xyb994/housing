@@ -10,7 +10,7 @@ class HousingUser(AbstractUser):
     #is_admin = models.BooleanField(default=False) # django field builtin
     #email = models.EmailField(unique=True) # django field builtin
     #password = models.CharField() (encrypted string) #django field builtin
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, blank=True, default="0000000000")
     #is_avtive = models.BooleanField(default=False) #django field builtin
     #datetime_created = models.DateTimeField(auto_now_add=True)
 
