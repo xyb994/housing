@@ -1,9 +1,14 @@
 label {
   margin-top: 8px;
   margin-bottom: 3px;
+  padding-left: 3px;
 }
 
 .btn-custom,
 .btn-custom:hover {
     background-color: #1b307b;
+}
+
+.not-required {
+  font-weight: 500;
 }
