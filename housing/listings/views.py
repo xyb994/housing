@@ -77,10 +77,24 @@ def registration_complete(request):
 # account profile view
 @login_required
 def profile(request):
-    listings = Listing.objects.filter(listing_owner=request.user)
+    if request.method == "POST":
+        listing_id = request.POST.get("listing-to-be-changed")
+        print("listing id:")
+        print(listing_id)
+        listing = Listing.objects.get(pk=listing_id)
+
+        if (listing.is_active):
+            listing.is_active = False
+        else:
+            listing.is_active = True
+
+        listing.save()
+
+    listings = Listing.objects.filter(listing_owner=request.user).order_by(
+        "-is_active", "-datetime_created")
     return render(request, "accounts/profile.html", {"listings": listings})
 
-# create new listing iew
+# create new listing view
 @login_required
 def newListing(request):
     if request.method == "POST":
