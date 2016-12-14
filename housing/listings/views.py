@@ -61,7 +61,6 @@ def register(request):
         form = HousingUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.datetime_created = datetime.now()
             user.email = user.username
             user.set_password(request.POST.get("password"))
             form.save()
@@ -98,6 +97,10 @@ class ProfileView(generic.ListView):
         return context
 
 
+class PreferenceView(generic.TemplateView):
+    template_name = "accounts/preference.html"
+
+
 class ListingCreate(generic.CreateView):
     model = Listing
     form_class = ListingForm
@@ -119,49 +122,20 @@ class ListingEdit(generic.UpdateView):
 
 
 def listing_status_toggle(request, listing_id):
-        listing = Listing.objects.get(pk=listing_id)
+    listing = Listing.objects.get(pk=listing_id)
 
-        if listing.is_active:
-            listing.is_active = False
-        else:
-            listing.is_active = True
-
-        listing.save()
-
-        return redirect("/accounts/profile")
-
-def post(request):
-    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
-
-    if request.method == 'POST':
-        postForm = PostForm(request.POST)
-        formset = ImageFormSet(request.POST, request.FILES,
-                               queryset=Images.objects.none())
-
-
-        if postForm.is_valid() and formset.is_valid():
-
-
-
-            post_form = postForm.save(commit=False)
-            post_form.user = request.user
-            post_form.save()
-
-            for form in formset.cleaned_data:
-                image = form['image']
-                photo = Images(post=post_form, image=image)
-                photo.save()
-            messages.success(request,
-                             "Yeeew,check it out on the home page!")
-            return HttpResponseRedirect("/")
-        else:
-            print postForm.errors, formset.errors
+    if listing.is_active:
+        listing.is_active = False
     else:
-        postForm = PostForm()
-        formset = ImageFormSet(queryset=Images.objects.none())
-    return render(request, 'index.html',
-                  {'postForm': postForm, 'formset': formset},
-                  context_instance=RequestContext(request))
+        listing.is_active = True
+
+    listing.save()
+
+    return redirect("/accounts/profile")
+
+
+class UserLogout(generic.TemplateView):
+    template_name = "accounts/logged_out.html"
 
 
 # class IndexView(generic.list.ListView):
