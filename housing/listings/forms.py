@@ -1,9 +1,12 @@
 from django import forms
-from .models import Listing, HousingUser
+from .models import Listing, HousingUser, Images
+
+class HousingUserCreationForm(forms.ModelForm):
+    class Meta:
+        model = HousingUser
+        fields = ("username", "password")
 
 class ListingForm(forms.ModelForm):
-    furnished_details = forms.CharField(required=False, widget=forms.TextInput(attrs={
-        "placeholder": "Example: bed and desk only"}))
     additional_lease_terms = forms.CharField(required=False,
         widget=forms.Textarea(attrs={'class': 'form-control',
         "placeholder": "Example: Owner pays for trash, sewer, and water. Owner "
@@ -14,10 +17,5 @@ class ListingForm(forms.ModelForm):
 
     class Meta:
         model = Listing
-        exclude = ("listing_owner", "is_active", "datetime_modified",
-            "datetime_created")
-
-class HousingUserCreationForm(forms.ModelForm):
-    class Meta:
-        model = HousingUser
-        fields = ("username", "password")
+        exclude = (
+        "listing_owner", "is_active", "datetime_modified", "datetime_created")
