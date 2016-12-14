@@ -25,7 +25,7 @@ SECRET_KEY = '6bial!nxe(69f@)o@q1yl=)6-01(x#k816s4nw*4()3i0=usex'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,8 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'listings'
+    'listings',
 ]
+
+THIRD_PARTY_APPS = [
+    'factory',
+    'faker'
+]
+
+INSTALLED_APPS += THIRD_PARTY_APPS
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +61,9 @@ MIDDLEWARE_CLASSES = [
 ROOT_URLCONF = 'housing.urls'
 
 AUTH_USER_MODEL = 'listings.HousingUser'
+
+LOGIN_URL = "/login"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -121,3 +131,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+MEDIA_URL = '/media/'

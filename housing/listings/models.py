@@ -4,15 +4,13 @@ from django.conf import settings
 
 # Create your models here.
 class HousingUser(AbstractUser):
-    #USERNAME_FIELD = 'email'
-    #first name = models.CharField(max_length=255) #django field builtin
-    #last name = models.CharField(max_length=255) #django field builtin
-    #is_admin = models.BooleanField(default=False) # django field builtin
-    #email = models.EmailField(unique=True) # django field builtin
-    #password = models.CharField() (encrypted string) #django field builtin
-    phone = models.CharField(max_length=15)
-    #is_avtive = models.BooleanField(default=False) #django field builtin
-    #datetime_created = models.DateTimeField(auto_now_add=True)
+    phone = models.CharField(max_length=15, blank=True, default="0000000000")
+
+    def get_listings(self):
+        listings = self.listings_set.all.order_by(
+            "-is_active", "-datetime_created")
+
+        return listings
 
 class Listing(models.Model):
     FOR_RENT_BY_CHOICES = (
@@ -100,10 +98,10 @@ class Listing(models.Model):
     owner_in_building = models.BooleanField(default=False)
     bedroom_count = models.PositiveSmallIntegerField()
     bathroom_count = models.PositiveSmallIntegerField()
-    unit_sqft = models.PositiveSmallIntegerField(blank=True, null=True)
+    unit_sqft = models.PositiveSmallIntegerField(default=0)
     unit_floor = models.PositiveSmallIntegerField()
     furnished = models.CharField(max_length=17, choices=FURNISHED_CHOICES)
-    furnished_details = models.TextField(blank=True, help_text='Example: bed only...', default='')
+    furnished_details = models.CharField(blank=True, help_text='Furnishing detail, example: bed only...', default='', max_length=512)
     is_water_included = models.BooleanField(default=False)
     is_electricity_included = models.BooleanField(default=False)
     is_heat_included = models.BooleanField(default=False)
@@ -120,8 +118,12 @@ class Listing(models.Model):
     has_microwave = models.BooleanField(default=False)
     has_fridge = models.BooleanField(default=False)
     cooling = models.CharField(max_length=20, choices=COOLING_CHOICES)
+    image1 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
+    image2 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
+    image3 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
 
     def __str__(self):
+
         return self.property_title
 
     class Meta:
@@ -129,8 +131,10 @@ class Listing(models.Model):
 
     def get_metric_area(self):
         metric_area = self.unit_sqft * 0.0929
+
         return int(metric_area)
 
     def get_address(self):
-        address = '%s, %s, %s %s' % (self.street, self.city, self.state, self.zip_code)
+        address = "{0}{1}{2}{3}".format(self.street, self.city, self.state, self.zip_code)
+
         return address

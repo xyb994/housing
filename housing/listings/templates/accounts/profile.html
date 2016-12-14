@@ -2,9 +2,73 @@
 {% load staticfiles %}
 
 {% block script %}
+<link href="{% static "listings/css/profile.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
+<p class="pull-right">Logged in as {{ request.user }}</p>
+<h2>My Account</h2>
+<span class="pull-right">
+  {% url "listings:new" as listings_new_url %}
+  <a href="{{ listings_new_url }}" class="btn btn-primary">Create New Listing</a>
+</span>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="/accounts/profile">My Listings</a></li>
+  <li><a href="/accounts/profile/preference">Account Preference</a></li>
+</ul>
 
-<h2>Hello {{ user.get_username }}</h2>
+{% if listings %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Property Address</th>
+      <th>City</th>
+      <th>Edit</th>
+      <th>Activation</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for listing in listings %}
+    <tr>
+      <td>
+        {% if listing.is_active %}
+        <strong>Active</strong>
+        {% else %}
+        <strong>Inactive</strong>
+        {% endif %}
+      </td>
+
+      <td>
+        <a href="{% url "listings:detail" listing.id %}">
+          {{ listing.street }}
+        </a>
+      </td>
+
+      <td> {{ listing.city }}, {{ listing.state }}</td>
+
+      <td>
+        {% url "listings:edit" pk=listing.pk as edit_listing_url %}
+        {{ edit_listing_url }}
+        <a href="{% url "listings:edit" listing.pk %}" class="btn btn-sm btn-default">Edit</a>
+      </td>
+
+      <td>
+        {% if listing.is_active %}
+        <a href="{% url "listings:toggle" listing.id %}" class="btn btn-sm btn-danger">
+          Deactivate
+        </a>
+        {% else %}
+        <a href="{% url "listings:toggle" listing.id %}" class="btn btn-sm btn-success">
+          Activate
+        </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+{% else %}
+  <p>You currently do not have any listing.</p>
+{% endif %}
 {% endblock %}
