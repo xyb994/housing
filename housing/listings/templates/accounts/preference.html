@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block script %}
+<link href="{% static "listings/css/preference.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<p class="pull-right">Logged in as {{ request.user }}</p>
+<h2>My Account</h2>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li><a href="/accounts/profile">My Listings</a></li>
+  <li class="active"><a href="/accounts/profile/preference">Account Preference</a></li>
+</ul>
+
+<form class="" method="post">{% csrf_token %}
+  <div class="">
+    <label for="">Email</label>
+    <input class="form-control form-control-custom" type="email" name="" value="">
+  </div>
+
+  <div class="">
+    <label for="">Password</label>
+    <input class="form-control form-control-custom" type="password" name="" value="">
+  </div>
+
+  <input class="btn btn-primary btn-block btn-custom" type="submit"
+      value="Update" />
+</form>
+{% endblock %}

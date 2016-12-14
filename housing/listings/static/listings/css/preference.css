@@ -1,0 +1,25 @@
+.form-control-custom {
+  margin-top: auto;
+  margin-bottom: 10px;
+  width: auto;
+}
+
+.form-control-custom:focus {
+    border:1px solid #1b307b;
+}
+
+.btn-custom,
+.btn-custom:hover {
+  width: auto;
+    background-color: #1b307b;
+}
+
+input[type=button].btn-block,
+input[type=reset].btn-block,
+input[type=submit].btn-block {
+  width: auto;
+}
+
+label {
+  margin-top: 5px;
+}
