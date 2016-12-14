@@ -118,6 +118,9 @@ class Listing(models.Model):
     has_microwave = models.BooleanField(default=False)
     has_fridge = models.BooleanField(default=False)
     cooling = models.CharField(max_length=20, choices=COOLING_CHOICES)
+    image1 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
+    image2 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
+    image3 = models.ImageField(upload_to='images', verbose_name='Image', blank=True)
 
     def __str__(self):
 
@@ -135,9 +138,3 @@ class Listing(models.Model):
         address = "{0}{1}{2}{3}".format(self.street, self.city, self.state, self.zip_code)
 
         return address
-
-
-class Images(models.Model):
-    post = models.ForeignKey(Listing, default=None)
-    image = models.ImageField(upload_to=get_image_filename,
-                              verbose_name='Image', )
