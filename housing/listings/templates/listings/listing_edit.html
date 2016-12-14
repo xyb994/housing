@@ -15,8 +15,7 @@
   {% csrf_token %}
   {{ form.errors }}
   {{ form.non_field_errors }}
-  <h2>ADD A NEW LISTING</h2>
-  <h3>About Your Property</h3>
+  <h2>About Your Property</h2>
   <div id="property-info" class="well">
     <div class="row">
       <div class="col-sm-8">
@@ -164,6 +163,5 @@
     {{ form.has_fridge }} <label for="id_has_fridge">Fridge</label><br>
     {{ form.has_garbage_disposal }} <label for="id_has_garbage_disposal">Garbage disposal</label>
   </div>
-  <p>Make sure you activate the listing after submission.</p>
   <button type="submit" class="btn btn-primary btn-custom">Submit</button>
 {% endblock %}
