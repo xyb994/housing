@@ -135,3 +135,9 @@ class Listing(models.Model):
         address = "{0}{1}{2}{3}".format(self.street, self.city, self.state, self.zip_code)
 
         return address
+
+
+class Images(models.Model):
+    post = models.ForeignKey(Listing, default=None)
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image', )
