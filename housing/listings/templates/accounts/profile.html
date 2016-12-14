@@ -7,20 +7,25 @@
 
 {% block content %}
 <p class="pull-right">Logged in as {{ request.user }}</p>
-<h3>My Listings</h3>
+<h2>My Account</h2>
 <span class="pull-right">
-  <a href="/listing/new/" class="btn btn-primary">Create New Listing</a>
+  {% url "listings:new" as listings_new_url %}
+  <a href="{{ listings_new_url }}" class="btn btn-primary">Create New Listing</a>
 </span>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="/accounts/profile">My Listings</a></li>
+  <li><a href="/accounts/profile/preference">Account Preference</a></li>
+</ul>
 
 {% if listings %}
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Status</th>
       <th>Property Address</th>
       <th>City</th>
       <th>Edit</th>
-      <th>Action</th>
+      <th>Activation</th>
     </tr>
   </thead>
   <tbody>
@@ -43,20 +48,20 @@
       <td> {{ listing.city }}, {{ listing.state }}</td>
 
       <td>
-        <a href="" class="btn btn-primary">Edit</a>
+        {% url "listings:edit" pk=listing.pk as edit_listing_url %}
+        {{ edit_listing_url }}
+        <a href="{% url "listings:edit" listing.pk %}" class="btn btn-sm btn-default">Edit</a>
       </td>
 
       <td>
         {% if listing.is_active %}
-        <form class="" action="/accounts/profile/" method="post">{% csrf_token %}
-          <button name="listing-to-be-changed" class="btn btn-danger"
-            value="{{ listing.id }}" type="submit">Deactivate</button>
-        </form>
+        <a href="{% url "listings:toggle" listing.id %}" class="btn btn-sm btn-danger">
+          Deactivate
+        </a>
         {% else %}
-        <form action="/accounts/profile/" method="post">{% csrf_token %}
-          <button name="listing-to-be-changed" class="btn btn-success"
-            value="{{ listing.id }}" type="submit">Activate</button>
-        </form>
+        <a href="{% url "listings:toggle" listing.id %}" class="btn btn-sm btn-success">
+          Activate
+        </a>
         {% endif %}
       </td>
     </tr>
@@ -64,8 +69,6 @@
   </tbody>
 
 {% else %}
-<p>You do not have any listing,
-  <a href="/listing/new/">click to Create S New Listing.</a>
-</p>
+  <p>You currently do not have any listing.</p>
 {% endif %}
 {% endblock %}
