@@ -21,7 +21,7 @@
 
     {% if form.errors %}
         <div class="alert alert-danger">
-            <p>Your email and password didn't match. Please try again.</p>
+            <p>{{ form.errors }}</p>
         </div>
     {% endif %}
 
