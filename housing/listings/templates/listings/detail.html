@@ -124,10 +124,18 @@
         src= "https://www.google.com/maps/embed/v1/place?key=AIzaSyCpV5sTdc5hjJjoeasLbSNu-6e575V-z44&q={{listing.get_address|urlencode}}">
         </iframe>
     </div>
-
+    
     <div class="images">
       <h3>Images</h3>
-      <img src="" alt="">
+      {% if listing.image1 %}
+      <p><img src="/media/{{ listing.image1 }}" alt="house-image-1"></p>
+      {% endif %}
+      {% if listing.image2 %}
+      <p><img src="/media/{{ listing.image2 }}" alt="house-image-2"></p>
+      {% endif %}
+      {% if listing.image3 %}
+      <p><img src="/media/{{ listing.image3 }}" alt="house-image-3"></p>
+      {% endif %}
     </div>
   </div>
 </div>
