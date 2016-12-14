@@ -4,15 +4,13 @@ from django.conf import settings
 
 # Create your models here.
 class HousingUser(AbstractUser):
-    #USERNAME_FIELD = 'email'
-    #first name = models.CharField(max_length=255) #django field builtin
-    #last name = models.CharField(max_length=255) #django field builtin
-    #is_admin = models.BooleanField(default=False) # django field builtin
-    #email = models.EmailField(unique=True) # django field builtin
-    #password = models.CharField() (encrypted string) #django field builtin
     phone = models.CharField(max_length=15, blank=True, default="0000000000")
-    #is_avtive = models.BooleanField(default=False) #django field builtin
-    #datetime_created = models.DateTimeField(auto_now_add=True)
+
+    def get_listings(self):
+        listings = self.listings_set.all.order_by(
+            "-is_active", "-datetime_created")
+
+        return listings
 
 class Listing(models.Model):
     FOR_RENT_BY_CHOICES = (
@@ -122,6 +120,7 @@ class Listing(models.Model):
     cooling = models.CharField(max_length=20, choices=COOLING_CHOICES)
 
     def __str__(self):
+
         return self.property_title
 
     class Meta:
@@ -129,8 +128,10 @@ class Listing(models.Model):
 
     def get_metric_area(self):
         metric_area = self.unit_sqft * 0.0929
+
         return int(metric_area)
 
     def get_address(self):
-        address = '%s, %s, %s %s' % (self.street, self.city, self.state, self.zip_code)
+        address = "{0}{1}{2}{3}".format(self.street, self.city, self.state, self.zip_code)
+
         return address
