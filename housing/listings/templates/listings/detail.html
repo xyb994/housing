@@ -124,7 +124,7 @@
         src= "https://www.google.com/maps/embed/v1/place?key=AIzaSyCpV5sTdc5hjJjoeasLbSNu-6e575V-z44&q={{listing.get_address|urlencode}}">
         </iframe>
     </div>
-    
+
     <div class="images">
       <h3>Images</h3>
       {% if listing.image1 %}
@@ -140,7 +140,11 @@
   </div>
 </div>
 {% else %}
-<p>Invalid URL. <a href="/">Go back to home page.</a></p>
+<div class="alert alert-warning">
+  <h4>Invalid URL, go back to
+    <a href="{% url "listings:profile" %}" class="alert-link">Home</a>.
+  </h4>
+</div>
 {% endif %}
 {% endblock %}
 
