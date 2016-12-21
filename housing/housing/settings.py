@@ -62,6 +62,8 @@ ROOT_URLCONF = 'housing.urls'
 
 AUTH_USER_MODEL = 'listings.HousingUser'
 
+LOGIN_URL = '/login/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
