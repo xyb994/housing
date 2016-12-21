@@ -134,10 +134,6 @@ def listing_status_toggle(request, listing_id):
     return redirect("/accounts/profile")
 
 
-class UserLogout(generic.TemplateView):
-    template_name = "accounts/logged_out.html"
-
-
 # class IndexView(generic.list.ListView):
 #     template = "listings/index.html"
 #     context_object_name = "listings"
