@@ -31,13 +31,13 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'listings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'listings',
 ]
 
 THIRD_PARTY_APPS = [
@@ -62,12 +62,10 @@ ROOT_URLCONF = 'housing.urls'
 
 AUTH_USER_MODEL = 'listings.HousingUser'
 
-LOGIN_URL = "/login"
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['listings/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
