@@ -13,8 +13,8 @@
   <a href="{{ listings_new_url }}" class="btn btn-primary">Create New Listing</a>
 </span>
 <ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="/accounts/profile">My Listings</a></li>
-  <li><a href="/accounts/profile/preference">Account Preference</a></li>
+  <li class="active"><a href="{% url "listings:profile" %}">My Listings</a></li>
+  <li><a href="{% url "listings:preference" %}">Account Preference</a></li>
 </ul>
 
 {% if listings %}

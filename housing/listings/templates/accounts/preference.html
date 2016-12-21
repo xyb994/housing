@@ -10,8 +10,8 @@
 <h2>My Account</h2>
 
 <ul class="nav nav-tabs" role="tablist">
-  <li><a href="/accounts/profile">My Listings</a></li>
-  <li class="active"><a href="/accounts/profile/preference">Account Preference</a></li>
+  <li><a href="{% url "listings:profile" %}">My Listings</a></li>
+  <li class="active"><a href="{% url "listings:preference" %}">Account Preference</a></li>
 </ul>
 
 <form class="" method="post">{% csrf_token %}
