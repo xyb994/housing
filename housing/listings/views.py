@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, render_to_response
 from django.views import generic
 from django.urls import reverse_lazy
+from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.context_processors import csrf
 
@@ -124,14 +125,17 @@ class ListingEdit(generic.UpdateView):
 def listing_status_toggle(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
 
-    if listing.is_active:
-        listing.is_active = False
+    if listing.listing_owner == request.user:
+        if listing.is_active:
+            listing.is_active = False
+        else:
+            listing.is_active = True
+
+        listing.save()
+
+        return redirect("/accounts/profile")
     else:
-        listing.is_active = True
-
-    listing.save()
-
-    return redirect("/accounts/profile")
+        raise Http404
 
 
 # class IndexView(generic.list.ListView):
