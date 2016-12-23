@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, render_to_response
 from django.views import generic
 from django.urls import reverse_lazy
-from django.http import Http404
+from django.http import HttpResponseForbidden, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.context_processors import csrf
 
@@ -121,21 +121,40 @@ class ListingEdit(generic.UpdateView):
     pk_url_kwarg = "listing_id"
     success_url = reverse_lazy("listings:profile")
 
+    def user_passes_test(self, request):
+        if request.user.is_authenticated():
+            self.object = self.get_object()
+            return self.object.listing_owner == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return HttpResponseForbidden()
+        else:
+            return super(ListingEdit, self).dispatch(request, *args, **kwargs)
+    # def get_queryset(self):
+    #     base_qs = super(ListingEdit, self).get_queryset()
+    #
+    #     return base_qs.filter(listing_owner=self.request.user.pk)
+
 
 def listing_status_toggle(request, listing_id):
-    listing = Listing.objects.get(pk=listing_id)
-
-    if listing.listing_owner == request.user:
-        if listing.is_active:
-            listing.is_active = False
-        else:
-            listing.is_active = True
-
-        listing.save()
-
-        return redirect("/accounts/profile")
-    else:
+    try:
+        listing = Listing.objects.get(pk=listing_id)
+    except Listing.DoesNotExist:
         raise Http404
+    else:
+        if listing.listing_owner.pk == request.user.pk:
+            if listing.is_active:
+                listing.is_active = False
+            else:
+                listing.is_active = True
+
+            listing.save()
+
+            return redirect("/accounts/profile")
+        else:
+            return HttpResponseForbidden()
 
 
 # class IndexView(generic.list.ListView):
