@@ -6,12 +6,6 @@ from django.conf import settings
 class HousingUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, default="0000000000")
 
-    def get_listings(self):
-        listings = self.listings_set.all.order_by(
-            "-is_active", "-datetime_created")
-
-        return listings
-
 class Listing(models.Model):
     FOR_RENT_BY_CHOICES = (
         ('owner', 'Owner'),
