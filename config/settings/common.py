@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Django settings for example_project project.
+Django settings for ssu_housing project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
@@ -12,8 +12,8 @@ from __future__ import absolute_import, unicode_literals
 
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (example_project/config/settings/common.py - 3 = example_project/)
-APPS_DIR = ROOT_DIR.path('example_project')
+ROOT_DIR = environ.Path(__file__) - 3  # (ssu_housing/config/settings/common.py - 3 = ssu_housing/)
+APPS_DIR = ROOT_DIR.path('ssu_housing')
 
 env = environ.Env()
 env.read_env()
@@ -45,8 +45,8 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     # custom users app
-    'example_project.users.apps.UsersConfig',
-    'example_project.listings.apps.ListingsConfig',
+    'ssu_housing.users.apps.UsersConfig',
+    'ssu_housing.listings.apps.ListingsConfig',
     # Your stuff: custom apps go here
 )
 
@@ -68,7 +68,7 @@ MIDDLEWARE = (
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'example_project.contrib.sites.migrations'
+    'sites': 'ssu_housing.contrib.sites.migrations'
 }
 
 # DEBUG
@@ -101,7 +101,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///example_project'),
+    'default': env.db('DATABASE_URL', default='postgres:///ssu_housing'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -235,8 +235,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'example_project.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'example_project.users.adapters.SocialAccountAdapter'
+ACCOUNT_ADAPTER = 'ssu_housing.users.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'ssu_housing.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model

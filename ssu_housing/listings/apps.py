@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class ListingsConfig(AppConfig):
-    name = 'example_project.listings'
+    name = 'ssu_housing.listings'
     verbose_name = "Listing"
 
     def ready(self):

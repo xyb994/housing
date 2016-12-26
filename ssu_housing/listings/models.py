@@ -8,7 +8,7 @@ from __future__ import unicode_literals, absolute_import
 # from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
-from example_project.users.models import User
+from ssu_housing.users.models import User
 from django.dispatch import receiver
 # from django.conf import settings
 
