@@ -1,4 +1,4 @@
-example_project
+Salem State Housing Project
 ===============
 
 test

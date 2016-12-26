@@ -16,11 +16,11 @@ urlpatterns = [
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
-    url(r'^users/', include('example_project.users.urls', namespace='users')),
+    url(r'^users/', include('ssu_housing.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
-    url(r'^',include('example_project.listings.urls')),
+    url(r'^',include('ssu_housing.listings.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
