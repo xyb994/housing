@@ -63,19 +63,15 @@ class ListingDetail(LoginRequiredMixin, DetailView):
     context_object_name = "listing"
     pk_url_kwarg = "listing_id"
 
-    def user_passes_test(self, request):
-        if request.user.is_authenticated():
-            self.object = self.get_object()
-            return self.object.listing_owner == HousingUser.objects.get(
-                id=self.request.user.pk)
-        return False
-
     def dispatch(self, request, *args, **kwargs):
-        if not self.user_passes_test(request):
-            return HttpResponseForbidden()
-        else:
-            return super(ListingDetail, self).dispatch(request, *args, **kwargs)
+        #if inactive and user doesn't own it return forbidden
+        #TODO: Refactor this to traverse request.user.housing_user
 
+        if not self.get_object().is_active and self.get_object().listing_owner \
+            != HousingUser.objects.filter(user=request.user).exists():
+            return HttpResponseForbidden()
+
+        return super(ListingDetail, self).dispatch(request, *args, **kwargs)
 
 # registration view
 def register(request):
