@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-# from django.core.urlresolvers import reverse
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.shortcuts import redirect, render, render_to_response
 from django.views.generic import DetailView, TemplateView, ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
@@ -22,7 +19,7 @@ def index(request):
         "-datetime_modified")
 
     # pagination
-    paginator = Paginator(listings, 2) #listing per page
+    paginator = Paginator(listings, 5) #listing per page
     page = request.GET.get("page")
 
     try:
@@ -57,18 +54,23 @@ def get_queryset(request):
     return queryset
 
 
-class ListingDetail(LoginRequiredMixin, DetailView):
+class ListingDetail(DetailView):
     model = Listing
     template_name = "listings/detail.html"
     context_object_name = "listing"
     pk_url_kwarg = "listing_id"
 
-    def dispatch(self, request, *args, **kwargs):
-        #if inactive and user doesn't own it return forbidden
-        #TODO: Refactor this to traverse request.user.housing_user
+    def user_authenticated_test(self, request):
+        if not self.get_object().is_active:
+            if request.user.is_authenticated():
+                if self.get_object().listing_owner == HousingUser.objects.get(
+                    id=self.request.user.pk):
+                    return True
+            return False
+        return True
 
-        if not self.get_object().is_active and self.get_object().listing_owner \
-            != HousingUser.objects.filter(user=request.user).exists():
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_authenticated_test(request):
             return HttpResponseForbidden()
 
         return super(ListingDetail, self).dispatch(request, *args, **kwargs)
