@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-# from django.core.urlresolvers import reverse
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.shortcuts import redirect, render, render_to_response
 from django.views.generic import DetailView, TemplateView, ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
@@ -63,15 +60,17 @@ class ListingDetail(DetailView):
     context_object_name = "listing"
     pk_url_kwarg = "listing_id"
 
-    def user_passes_test(self, request):
-        if request.user.is_authenticated():
-            self.object = self.get_object()
-            return self.object.listing_owner == HousingUser.objects.get(
-                id=self.request.user.pk)
-        return False
+    def user_authenticated_test(self, request):
+        if not self.get_object().is_active:
+            if request.user.is_authenticated():
+                if self.get_object().listing_owner == HousingUser.objects.get(
+                    id=self.request.user.pk):
+                    return True
+            return False
+        return True
 
     def dispatch(self, request, *args, **kwargs):
-        if not self.user_passes_test(request):
+        if not self.user_authenticated_test(request):
             return HttpResponseForbidden()
         else:
             return super(ListingDetail, self).dispatch(request, *args, **kwargs)
