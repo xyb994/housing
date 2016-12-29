@@ -57,7 +57,7 @@ def get_queryset(request):
     return queryset
 
 
-class ListingDetail(LoginRequiredMixin, DetailView):
+class ListingDetail(DetailView):
     model = Listing
     template_name = "listings/detail.html"
     context_object_name = "listing"
