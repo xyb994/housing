@@ -72,9 +72,8 @@ class ListingDetail(DetailView):
     def dispatch(self, request, *args, **kwargs):
         if not self.user_authenticated_test(request):
             return HttpResponseForbidden()
-        else:
-            return super(ListingDetail, self).dispatch(request, *args, **kwargs)
 
+        return super(ListingDetail, self).dispatch(request, *args, **kwargs)
 
 # registration view
 def register(request):
