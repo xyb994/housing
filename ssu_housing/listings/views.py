@@ -22,7 +22,7 @@ def index(request):
         "-datetime_modified")
 
     # pagination
-    paginator = Paginator(listings, 2) #listing per page
+    paginator = Paginator(listings, 5) #listing per page
     page = request.GET.get("page")
 
     try:
