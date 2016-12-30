@@ -141,7 +141,7 @@ class ListingEdit(LoginRequiredMixin, UpdateView):
     pk_url_kwarg = "listing_id"
     success_url = reverse_lazy("listings:profile")
 
-    def user_passes_test(self, request):
+    def is_user_authorized(self, request):
         if request.user.is_authenticated():
             self.object = self.get_object()
             return self.object.listing_owner == HousingUser.objects.get(
@@ -149,14 +149,10 @@ class ListingEdit(LoginRequiredMixin, UpdateView):
         return False
 
     def dispatch(self, request, *args, **kwargs):
-        if not self.user_passes_test(request):
+        if not self.is_user_authorized(request):
             return HttpResponseForbidden()
         else:
             return super(ListingEdit, self).dispatch(request, *args, **kwargs)
-    # def get_queryset(self):
-    #     base_qs = super(ListingEdit, self).get_queryset()
-    #
-    #     return base_qs.filter(listing_owner=self.request.user.pk)
 
 
 def listing_status_toggle(request, listing_id):
