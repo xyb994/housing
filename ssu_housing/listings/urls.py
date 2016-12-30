@@ -35,16 +35,6 @@ urlpatterns = [
         name='toggle'
     ),
     url(
-        regex=r'^accounts/register/$',
-        view=views.register,
-        name='register'
-    ),
-    url(
-        regex=r'^accounts/register/complete/$',
-        view=views.RegistrationCompleteView.as_view(),
-        name='registration_complete'
-    ),
-    url(
         regex=r'^accounts/profile/$',
         view=login_required(views.ProfileView.as_view()),
         name='profile'

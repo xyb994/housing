@@ -75,29 +75,6 @@ class ListingDetail(DetailView):
 
         return super(ListingDetail, self).dispatch(request, *args, **kwargs)
 
-# registration view
-def register(request):
-    if request.method == "POST":
-        form = HousingUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.email = user.username
-            user.set_password(request.POST.get("password"))
-            form.save()
-            return redirect("/accounts/register/complete")
-    # if a GET (or any other method), create a blank form
-    else:
-        form = HousingUserCreationForm()
-    token = {}
-    token.update(csrf(request))
-    token["form"] = form
-
-    return render_to_response("accounts/registration_form.html", token)
-
-
-class RegistrationCompleteView(LoginRequiredMixin, TemplateView):
-    template_name = "accounts/registration_complete.html"
-
 
 class ProfileView(LoginRequiredMixin, ListView):
     model = HousingUser
