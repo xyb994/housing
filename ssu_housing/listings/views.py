@@ -60,7 +60,7 @@ class ListingDetail(DetailView):
     context_object_name = "listing"
     pk_url_kwarg = "listing_id"
 
-    def user_authenticated_test(self, request):
+    def is_user_authorized(self, request):
         if not self.get_object().is_active:
             if request.user.is_authenticated():
                 if self.get_object().listing_owner == HousingUser.objects.get(
@@ -70,7 +70,7 @@ class ListingDetail(DetailView):
         return True
 
     def dispatch(self, request, *args, **kwargs):
-        if not self.user_authenticated_test(request):
+        if not self.is_user_authorized(request):
             return HttpResponseForbidden()
 
         return super(ListingDetail, self).dispatch(request, *args, **kwargs)
