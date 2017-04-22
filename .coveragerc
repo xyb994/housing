@@ -1,5 +1,5 @@
 [run]
-include = example_project/*
+include = ssu_housing/*
 omit = *migrations*, *tests*
 plugins =
     django_coverage_plugin
