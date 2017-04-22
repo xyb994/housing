@@ -1,9 +1,9 @@
-.. example_project documentation master file, created by
+.. ssu_housing documentation master file, created by
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to example_project's documentation!
+Welcome to ssu_housing's documentation!
 ====================================================================
 
 Contents:
